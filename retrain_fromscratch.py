@@ -85,13 +85,13 @@ def res_subsam(input_tensor,filters,kernel_size,subsam):
 	x = BatchNormalization(epsilon=eps, axis=-1)(input_tensor)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
-	x = Dropout(0.4)(x)
+	x = Dropout(rate=0.4,seed=1)(x)
 	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##
 	x = MaxPooling1D(pool_size=subsam)(x)
 	x = BatchNormalization(epsilon=eps, axis=-1)(x)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
-	x = Dropout(0.4)(x)
+	x = Dropout(rate=0.4,seed=1)(x)
 	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
 	short = Conv1D(filters=nb_filter2,kernel_size=kernel_size,padding='same',use_bias=False)(input_tensor)
 	short = MaxPooling1D(pool_size=subsam)(short)
@@ -104,12 +104,12 @@ def res_nosub(input_tensor,filters,kernel_size):
 	x = BatchNormalization(epsilon=eps, axis=-1)(input_tensor)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
-	x = Dropout(0.4)(x)
+	x = Dropout(rate=0.4,seed=1)(x)
 	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##
 	x = BatchNormalization(epsilon=eps, axis=-1)(x)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
-	x = Dropout(0.4)(x)
+	x = Dropout(rate=0.4,seed=1)(x)
 	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
 	x = add([x,input_tensor])
 	return x
@@ -121,7 +121,7 @@ def res_first(input_tensor,filters,kernel_size):
 	x = BatchNormalization(epsilon=eps, axis=-1)(x)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
-	x = Dropout(0.4)(x)
+	x = Dropout(rate=0.4,seed=1)(x)
 	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
 	x = add([x,input_tensor])
 	return x
