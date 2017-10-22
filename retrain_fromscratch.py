@@ -86,13 +86,13 @@ def res_subsam(input_tensor,filters,kernel_size,subsam):
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
 	x = Dropout(0.4)(x)
-	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_uniform(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##
+	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##
 	x = MaxPooling1D(pool_size=subsam)(x)
 	x = BatchNormalization(epsilon=eps, axis=-1)(x)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
 	x = Dropout(0.4)(x)
-	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_uniform(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
+	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
 	short = Conv1D(filters=nb_filter2,kernel_size=kernel_size,padding='same',use_bias=False)(input_tensor)
 	short = MaxPooling1D(pool_size=subsam)(short)
 	x = add([x,short])
@@ -105,24 +105,24 @@ def res_nosub(input_tensor,filters,kernel_size):
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
 	x = Dropout(0.4)(x)
-	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_uniform(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##
+	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##
 	x = BatchNormalization(epsilon=eps, axis=-1)(x)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
 	x = Dropout(0.4)(x)
-	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_uniform(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
+	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
 	x = add([x,input_tensor])
 	return x
 	
 def res_first(input_tensor,filters,kernel_size):
 	eps=1.1e-5
 	nb_filter1, nb_filter2 = filters
-	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_uniform(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(input_tensor) ##
+	x = Conv1D(filters=nb_filter1,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(input_tensor) ##
 	x = BatchNormalization(epsilon=eps, axis=-1)(x)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
 	x = Dropout(0.4)(x)
-	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_uniform(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
+	x = Conv1D(filters=nb_filter2,kernel_initializer=initializers.he_normal(seed=1),kernel_size=kernel_size,padding='same',use_bias=False)(x) ##	
 	x = add([x,input_tensor])
 	return x
 	
@@ -131,7 +131,7 @@ def irfanet(eeg_length,num_classes, kernel_size):
 	eps = 1.1e-5
 	
 	EEG_input = Input(shape=(eeg_length,1))
-	x = Conv1D(filters=64,kernel_size=kernel_size,kernel_initializer=initializers.he_uniform(seed=1),padding='same',use_bias=False)(EEG_input) ##
+	x = Conv1D(filters=64,kernel_size=kernel_size,kernel_initializer=initializers.he_normal(seed=1),padding='same',use_bias=False)(EEG_input) ##
 	x = BatchNormalization(epsilon=eps, axis=-1)(x)
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
@@ -156,7 +156,7 @@ def irfanet(eeg_length,num_classes, kernel_size):
 	x = Scale(axis=-1)(x)
 	x = Activation('relu')(x)
 	x = Flatten()(x)
-	x = Dense(num_classes,activation='softmax',kernel_initializer=initializers.he_uniform(seed=1))(x)
+	x = Dense(num_classes,activation='softmax',kernel_initializer=initializers.he_normal(seed=1))(x)
 		
 	model = Model(EEG_input, x)
 	#model.load_weights(filepath='/home/prio/Keras/thesis/irfanet-10/tmp/1DCNN_221017/weights.03-0.8091.hdf5',by_name=False)
